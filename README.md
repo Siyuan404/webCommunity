@@ -1,7 +1,8 @@
 ## 我的社区
 
 ## 资料
-https://spring.io/guides
+https://spring.io/guides  
+https://square.github.io/okhttp/
 
 #### 运行我的第一个Springboot程序hello.html
 https://spring.io/guides/gs/serving-web-content/
