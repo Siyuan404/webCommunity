@@ -3,6 +3,7 @@
 ## 资料
 https://spring.io/guides  
 https://square.github.io/okhttp/
+https://docs.spring.io/spring-boot/docs/2.0.0.RC1/reference/htmlsingle/#boot-features-embedded-database-support
 
 #### 运行我的第一个Springboot程序hello.html
 https://spring.io/guides/gs/serving-web-content/
