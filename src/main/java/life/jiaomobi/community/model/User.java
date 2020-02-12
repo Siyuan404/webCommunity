@@ -13,6 +13,8 @@ public class User {
 
     private Long gmtModify;
 
+    private String bio;
+
     public int getId() {
         return id;
     }
@@ -60,4 +62,8 @@ public class User {
     public void setGmtModify(Long gmtModify) {
         this.gmtModify = gmtModify;
     }
+
+    public void setBio(String bio) { this.bio = bio; }
+
+    public String getBio() { return bio; }
 }

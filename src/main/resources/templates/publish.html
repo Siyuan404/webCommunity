@@ -2,10 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>随时分享你发现的MoBi</title>
+    <title>你要说MoBi</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/community.css">
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
 </head>
 
@@ -44,5 +45,40 @@
             </div>
         </div>
     </nav>
+
+        <div class="container-fluid main">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                    <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 发起</h2>
+                    <hr>
+
+                    <form action="">
+                        <div class="form-group">
+                            <label for="title">MoBi标题：</label>
+                            <input id="title" name="title" type="text" class="form-control" placeholder="给你的MoBi起个标题">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tag">添加标签：</label>
+                            <input id="tag" name="tag" type="text" class="form-control" placeholder="给你的MoBi分个类">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="discription">补充说明：</label>
+                            <textarea name="discription" id="discription" type="text" class="form-control" cols="30" rows="10" placeholder="你要说MoBi"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-publish">发布你的MoBi</button>
+                    </form>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <h3><span class="glyphicon glyphicon-user" aria-hidden="true"></span> MoBi发起指南</h3>
+                    <p>• MoBi标题: 请用精简的语言描述您发布的MoBi，不超过25字</p>
+                    <p>• 添加标签: 选择一个或者多个合适的标签，用逗号隔开，每个标签不超过10个字</p>
+                    <p>• 补充说明: 详细补充您的MoBi内容，并确保描述清晰直观, 并提供一些相关的资料</p>
+                </div>
+            </div>
+        </div>
 </body>
 </html>

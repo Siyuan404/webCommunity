@@ -1,0 +1,1 @@
+ALTER TABLE community.user ADD bio VARCHAR(250) NULL;
