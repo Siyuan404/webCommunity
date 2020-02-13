@@ -60,6 +60,7 @@ public class AuthorizeController {
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModify(user.getGmtCreate());
             user.setBio(gitHubUser.getBio());
+            user.setAvatarUrl(gitHubUser.getAvatarUrl());
 
             userMapper.insert(user);  //插入数据库的过程就相当于写入session（用数据库实物的存储代替了session的写入）
 

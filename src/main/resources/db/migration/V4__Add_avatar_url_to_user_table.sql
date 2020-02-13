@@ -1,0 +1,1 @@
+ALTER TABLE community.user ADD avatar_url VARCHAR(100) NULL;
