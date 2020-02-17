@@ -1,5 +1,6 @@
 package life.jiaomobi.community.service;
 
+import life.jiaomobi.community.dto.PageDto;
 import life.jiaomobi.community.dto.QuestionDto;
 import life.jiaomobi.community.mapper.QuestionMapper;
 import life.jiaomobi.community.mapper.UserMapper;
@@ -20,8 +21,24 @@ public class QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
 
-    public List<QuestionDto> list() {
-        List<Question> questions = questionMapper.list();
+    public PageDto list(Integer page, Integer size) {
+        PageDto pageDto = new PageDto();
+
+        Integer totalCount = questionMapper.count();
+
+        pageDto.setPagination(totalCount, page, size);
+
+        if (page < 1) {
+            page = 1;
+        }
+
+        if (page > pageDto.getTotalPage()) {
+            page = pageDto.getTotalPage();
+        }
+
+        Integer offset = size * (page - 1);
+
+        List<Question> questions = questionMapper.list(offset, size); //每一页的问题列表
         List<QuestionDto> questionDtoList = new ArrayList<>();
 
         for (Question question : questions) {
@@ -34,6 +51,8 @@ public class QuestionService {
             questionDtoList.add(questionDto);
         }
 
-        return questionDtoList;
+        pageDto.setQuestions((questionDtoList));
+
+        return pageDto;
     }
 }
