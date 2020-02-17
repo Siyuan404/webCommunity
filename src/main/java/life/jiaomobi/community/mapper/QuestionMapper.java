@@ -17,6 +17,12 @@ public interface QuestionMapper {
     @Select("SELECT * FROM community.question LIMIT #{offset}, #{size}")
     List<Question> list(@Param(value = "offset") Integer offset, @Param(value = "size") Integer size);
 
+    @Select("SELECT * FROM community.question WHERE creator = #{userId} LIMIT #{offset}, #{size}")
+    List<Question> listByUserId(@Param(value = "userId") Integer userId, @Param(value = "offset") Integer offset, @Param(value = "size") Integer size);
+
     @Select("SELECT COUNT(1) FROM community.question")
     Integer count();
+
+    @Select("SELECT COUNT(1) FROM community.question WHERE creator = #{userId}")
+    Integer countByUserId(@Param(value = "userId") Integer userId);
 }
