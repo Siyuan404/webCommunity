@@ -34,29 +34,33 @@ public class QuestionService {
             totalPage = totalCount / size + 1;
         }
 
-        if (page < 1) {
-            page = 1;
-        }
-
         if (page > totalPage) {
             page = totalPage;
+        }
+
+        if (page < 1) {
+            page = 1;
         }
 
         pageDto.setPagination(totalPage, page);
 
         Integer offset = size * (page - 1);
 
+
+
         List<Question> questions = questionMapper.list(offset, size); //每一页的问题列表
         List<QuestionDto> questionDtoList = new ArrayList<>();
 
-        for (Question question : questions) {
-            User user = userMapper.findById(question.getCreator());
+        if (questions != null) {
+            for (Question question : questions) {
+                User user = userMapper.findById(question.getCreator());
 
-            QuestionDto questionDto = new QuestionDto();
-            BeanUtils.copyProperties(question, questionDto); //将question中所有属性拷贝进questionDto
-            questionDto.setUser(user);
+                QuestionDto questionDto = new QuestionDto();
+                BeanUtils.copyProperties(question, questionDto); //将question中所有属性拷贝进questionDto
+                questionDto.setUser(user);
 
-            questionDtoList.add(questionDto);
+                questionDtoList.add(questionDto);
+            }
         }
 
         pageDto.setQuestions((questionDtoList));
@@ -77,12 +81,12 @@ public class QuestionService {
             totalPage = totalCount / size + 1;
         }
 
-        if (page < 1) {
-            page = 1;
-        }
-
         if (page > totalPage) {
             page = totalPage;
+        }
+
+        if (page < 1) {
+            page = 1;
         }
 
         pageDto.setPagination(totalPage, page);
@@ -111,10 +115,23 @@ public class QuestionService {
         QuestionDto questionDto = new QuestionDto();
 
         Question question = questionMapper.getById(id);
-        User user = userMapper.findById(question.getId());
+        User user = userMapper.findById(question.getCreator());
         BeanUtils.copyProperties(question, questionDto);
         questionDto.setUser(user);
 
         return questionDto;
+    }
+
+    public void createOrUpdate(Question question) {
+        if (question.getId() == null) {
+            //新问题，将问题直接插入数据库
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModify(question.getGmtCreate());
+            questionMapper.create(question);
+        } else {
+            //旧问题，修改数据库
+            question.setGmtModify(System.currentTimeMillis());
+            questionMapper.update(question);
+        }
     }
 }

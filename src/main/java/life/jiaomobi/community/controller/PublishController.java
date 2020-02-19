@@ -1,12 +1,15 @@
 package life.jiaomobi.community.controller;
 
+import life.jiaomobi.community.dto.QuestionDto;
 import life.jiaomobi.community.mapper.QuestionMapper;
 import life.jiaomobi.community.model.Question;
 import life.jiaomobi.community.model.User;
+import life.jiaomobi.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class PublishController {
     @Autowired
-    private QuestionMapper questionMapper;
+    private QuestionService questionService;
 
     @GetMapping("/publish")
     public String publish() {
@@ -25,6 +28,7 @@ public class PublishController {
     public String doPublish(@RequestParam("title") String title,
                             @RequestParam("tag") String tag,
                             @RequestParam("description") String description,
+                            @RequestParam("questionId") Integer questionId,
                             HttpServletRequest request,
                             Model model) {
         model.addAttribute("title", title);
@@ -50,14 +54,26 @@ public class PublishController {
 
         Question question = new Question();
 
+        question.setId(questionId);
         question.setTitle(title);
         question.setDescription(description);
         question.setTag(tag);
         question.setCreator(user.getId());
-        question.setGmtCreate(System.currentTimeMillis());
-        question.setGmtModify(question.getGmtCreate());
 
-        questionMapper.create(question);
+        questionService.createOrUpdate(question);
+
         return "redirect:/";
+    }
+
+    @GetMapping("publish/{id}")
+    public String edit(@PathVariable(name = "id") Integer id,
+                       Model model) {
+        QuestionDto question = questionService.getById(id);
+        model.addAttribute("title", question.getTitle());
+        model.addAttribute("tag", question.getTag());
+        model.addAttribute("description", question.getDescription());
+        model.addAttribute("questionId", question.getId());
+
+        return "publish";
     }
 }

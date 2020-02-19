@@ -2,10 +2,7 @@ package life.jiaomobi.community.mapper;
 
 import life.jiaomobi.community.dto.QuestionDto;
 import life.jiaomobi.community.model.Question;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -29,4 +26,7 @@ public interface QuestionMapper {
 
     @Select("SELECT * FROM community.question WHERE id = #{id}")
     Question getById(@Param(value = "id") Integer id);
+
+    @Update("UPDATE community.question SET title = #{title}, description = #{description}, gmt_modify = #{gmtModify}, tag = #{tag} WHERE id = #{id}")
+    void update(Question question);
 }

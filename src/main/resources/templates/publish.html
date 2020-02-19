@@ -4,10 +4,10 @@
 <head>
     <title>你要说MoBi</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="css/community.css">
-    <script src="js/bootstrap.min.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/community.css">
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
 </head>
 
 <body>
@@ -20,6 +20,7 @@
                 <hr>
 
                 <form action="/publish" method="post">
+                    <input type="hidden" name="questionId" th:value="${id}">
                     <div class="form-group">
                         <label for="title">MoBi标题：</label>
                         <input id="title" name="title" type="text" class="form-control" placeholder="给你的MoBi起个标题" th:value="${title}">
@@ -32,7 +33,7 @@
 
                     <div class="form-group">
                         <label for="description">补充说明：</label>
-                        <textarea name="description" id="description" type="text" class="form-control" cols="30" rows="10" placeholder="你要说MoBi" th:value="${description}"></textarea>
+                        <textarea name="description" id="description" type="text" class="form-control" cols="30" rows="10" placeholder="你要说MoBi" th:text="${description}"></textarea>
                     </div>
 
 

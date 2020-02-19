@@ -5,6 +5,7 @@ import life.jiaomobi.community.dto.GitHubUser;
 import life.jiaomobi.community.mapper.UserMapper;
 import life.jiaomobi.community.model.User;
 import life.jiaomobi.community.provider.GitHubProvider;
+import life.jiaomobi.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,9 @@ public class AuthorizeController {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
@@ -57,13 +61,10 @@ public class AuthorizeController {
             user.setName(gitHubUser.getName());
             String token = UUID.randomUUID().toString();
             user.setToken(token);
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModify(user.getGmtCreate());
             user.setBio(gitHubUser.getBio());
             user.setAvatarUrl(gitHubUser.getAvatarUrl());
 
-            userMapper.insert(user);  //插入数据库的过程就相当于写入session（用数据库实物的存储代替了session的写入）
-
+            userService.createOrUpdate(user);
             response.addCookie(new Cookie("token", token));
 
             return "redirect:/";
@@ -71,5 +72,17 @@ public class AuthorizeController {
             //登录失败，重新登录
             return "redirect:/";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response) {
+        request.getSession().removeAttribute("user");
+
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+
+        return "redirect:/";
     }
 }
