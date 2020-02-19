@@ -1,5 +1,6 @@
 package life.jiaomobi.community.mapper;
 
+import life.jiaomobi.community.dto.QuestionDto;
 import life.jiaomobi.community.model.Question;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -25,4 +26,7 @@ public interface QuestionMapper {
 
     @Select("SELECT COUNT(1) FROM community.question WHERE creator = #{userId}")
     Integer countByUserId(@Param(value = "userId") Integer userId);
+
+    @Select("SELECT * FROM community.question WHERE id = #{id}")
+    Question getById(@Param(value = "id") Integer id);
 }

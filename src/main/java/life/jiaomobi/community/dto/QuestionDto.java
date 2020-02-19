@@ -15,7 +15,7 @@ public class QuestionDto {
 
     private Long gmtModify;
 
-    private Integer creator;
+    private String creator;
 
     private Integer commentCount;
 
