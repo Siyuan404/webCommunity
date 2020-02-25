@@ -1,7 +1,6 @@
 package life.jiaomobi.community.controller;
 
 import life.jiaomobi.community.dto.QuestionDto;
-import life.jiaomobi.community.mapper.QuestionMapper;
 import life.jiaomobi.community.model.Question;
 import life.jiaomobi.community.model.User;
 import life.jiaomobi.community.service.QuestionService;

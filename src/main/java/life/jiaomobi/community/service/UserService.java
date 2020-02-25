@@ -2,8 +2,11 @@ package life.jiaomobi.community.service;
 
 import life.jiaomobi.community.mapper.UserMapper;
 import life.jiaomobi.community.model.User;
+import life.jiaomobi.community.model.userExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -11,22 +14,28 @@ public class UserService {
     private UserMapper userMapper;
 
     public void createOrUpdate(User user) {
-        User dbUser = userMapper.findByAccountId(user.getAccountId());
+        userExample userExample = new userExample();
+        userExample.createCriteria().andAccountIdEqualTo(user.getAccountId());
+        List<User> users = userMapper.selectByExample(userExample);
 
-        if (dbUser == null) {
+        if (users.size() == 0) {
             //若数据库中没有这个用户，直接插入
-
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModify(user.getGmtCreate());
             userMapper.insert(user);
         } else {
             //若此用户已存在于数据库中，修改token等信息
-            dbUser.setName(user.getName());
-            dbUser.setToken(user.getToken());
-            dbUser.setBio(user.getBio());
-            dbUser.setAvatarUrl(user.getAvatarUrl());
-            dbUser.setGmtModify(System.currentTimeMillis());
-            userMapper.update(dbUser);
+            User updateUser = new User();
+            updateUser.setName(user.getName());
+            updateUser.setToken(user.getToken());
+            updateUser.setBio(user.getBio());
+            updateUser.setAvatarUrl(user.getAvatarUrl());
+            updateUser.setGmtModify(System.currentTimeMillis());
+
+            User dbUser = users.get(0);
+            userExample example = new userExample();
+            example.createCriteria().andIdEqualTo(dbUser.getId());
+            userMapper.updateByExampleSelective(updateUser, example);
         }
     }
 }
